@@ -1,0 +1,33 @@
+<div class="header">
+	<div class="main12">
+		<div class="logo fl"><img src="/html/images/logo.png" width="415" height="60" /></div>
+		<div class="search fr">
+			<%sousuo%>
+		</div>
+	</div>
+</div>
+<div class="clear"></div>
+<div class="w100 pr">
+	<div class="main12 pr">
+		<ul class="menu pa">
+			<f:loop(menu_loop,,10)>
+				<li>
+					<a href="<:@url>" target="" class="menua"><:name></a>
+					<dl class="menu_second">
+						<f:loop(child_loop,<:id>,,)>
+						<dd><a href="<:@url>" target=""><:name></a></dd>
+						</f:loop>
+					</dl>
+				</li>
+			</f:loop>
+			
+		</ul>
+	</div>
+	<div class="flicker-example" data-block-text="false">
+	  <ul>
+		<f:loop(art_loop,86,3,,1,,)>
+			<li data-background="<:thumb>"></li>
+		</f:loop>
+	  </ul>
+	</div>
+</div>

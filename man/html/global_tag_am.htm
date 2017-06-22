@@ -1,0 +1,143 @@
+<!DOCTYPE HTML>
+<html>
+<head> 
+<title>自定义全局标签[添加/编辑]</title>
+<link href="/widget/Hplus/css/plugins/iCheck/custom.css" rel="stylesheet">
+{css}  
+{js}
+{ppf}
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+	<div class="col-sm-12">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5 class="panel-title">自定义全局标签<small>   [添加/编辑]</small>      </h5>
+				<div class="ibox-tools">
+					<a class="close-link" onclick="window.history.back(-1);">
+						<i class="fa fa-arrow-circle-left">返回</i>
+					</a>
+				</div>
+			</div>
+			<div class="ibox-content">
+				<form id="form1" class="form-horizontal">
+				     <div class="form-group">
+					    <label class="col-sm-12">标签名称</label>  
+						<div class="col-sm-4"> <input id="name" name="name" type="text" class="form-control" maxlength="50"  placeholder="请输入名称" value=""> </div> 
+					 </div> 
+					 <div class="form-group">
+					    <label class="col-sm-12">标签符号
+						<span class="label label-danger">[不可重复，形如'<%name%>',请勿输入中文]</span></label>  
+					    <div class="col-sm-4 input-group" style="padding-left:15px;padding-right:15px;">
+							<span class="input-group-addon">&#60;%</span>
+							<input id="code" name="code" type="text" class="form-control" maxlength="50"  placeholder="请输入标签符号" value="">
+							<span class="input-group-addon">%&#62;</span>
+						</div>
+					 </div>
+					 <div class="form-group">
+					    <label class="col-sm-12">标签类型</label>  
+						<div class="col-sm-4">
+						    <select id="type" name="type" class="form-control" value="">
+								<option value="">——请选择——</option>	
+								<option value="3">自定义普通标签</option>
+								<option value="4">自定义模板标签</option>
+							</select>
+						</div> 
+					 </div>
+					 <div class="form-group type_3">
+					    <label class="col-sm-12">标签所表示的内容</label>  
+						<div class="col-sm-8"> <textarea class="form-control content" id="" name="content" rows="15"></textarea> </div> 
+					 </div> 
+					 <div class="form-group type_4">
+					    <label class="col-sm-12">标签所表示的模板文件名
+						<span class="label label-danger">[完整的模板文件名，如head.htm，请确认该模板文件存在]</span></label>  
+						<div class="col-sm-4"> <input id="" name="content" type="text" class="form-control content" maxlength="50"  placeholder="请输入模板文件名" value=""> </div> 
+					 </div>
+					<div class="form-group"> 
+						<label class="col-sm-12">描述 </label>   
+						<div class="col-sm-4"> <textarea class="form-control" id="desc" name="desc"></textarea> </div> 
+					</div>			
+					<div class="form-group">
+						<div class="col-sm-12"><button type="button" class="btn btn-success" id="btn"> 提交 </button> </div>
+						<input id="id" name="id" type="text" class="form-control" value="" style="display: none;">
+						<!-- <input id="type" name="type" type="text" class="form-control" value="3" style="display: none;"> -->
+					</div>
+				</form>  
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+
+<script>
+	$(function(){
+		var dotype=queryStr("do");
+		var id=queryStr("id");
+		$(".type_4").hide();
+		$(".type_3").show();
+		$(".type_3 .content").attr("id","content");
+		$(".type_4 .content").attr("id","");
+		if(dotype=="m"){               
+	        readID({"do":"r",id:id,frmid:"#form1",tpl:"global_tag",callback:"dosome2"}); 
+	    }
+			
+		$("#btn").click(function(){
+		    if($("#name").val()==''){alert("标签名称不可为空");return false;}
+			if($("#code").val()==''){alert("标签符号不可为空");return false;}
+			if(isChineseChar($("#code").val())){alert("标签代码不支持中文");return false;}
+			$("#content").val(escape($("#content").val()));
+		    //检查标签代码是否已存在
+			$.post("/man/srv/sdo.php",{tpl:'check_global_tag','code':$("#code").val(),'id':$("#id").val(),'do':dotype},function(d,t){
+				//console.log(d);return false;
+				if(d.indexOf('ok')>-1){
+					SaveAM({"do":dotype,"id":$("#id").val(),frmid:"#form1",tpl:"global_tag",showok:"提交成功",callback:"dosome"});
+				}else{
+					alert("标签代码已存在");
+				}
+			})						
+		});
+	})
+	
+	function dosome2(e,data){
+	   type_change();
+	   if(!$("#type").val()){
+	       $(".form-group").hide();
+		   $(".type_3").show();
+	   }
+	   if($("#type").val()=='4'){
+	       $(".type_4 .content").val($(".type_3 .content").val());
+	   }
+	   $("#content").val(unescape($("#content").val()));
+	}     	
+	function type_change(){
+	   if($("#type").val()=='3'){
+	       $(".type_4").hide();
+		   $(".type_3").show();
+		   $(".type_3 .content").attr("id","content");
+		   $(".type_4 .content").attr("id","");
+	   }
+	   if($("#type").val()=='4'){
+	       $(".type_3").hide();
+		   $(".type_4").show();
+		   $(".type_4 .content").attr("id","content");
+		   $(".type_3 .content").attr("id","");
+	   }
+	}
+	$("#type").change(type_change);
+	
+	function dosome(e,data){
+	   if(data.indexOf('ok')>-1){ 
+	      //update_shtm();
+	      location.href="/man/?t=global_tag";
+	   }
+	   else
+	      alert("操作失败！");
+	}     	
+    
+	//是否含有中文（也包含日文和韩文）
+	function isChineseChar(str){   
+	   var reg = /[\u4E00-\u9FA5\uF900-\uFA2D]/;
+	   return reg.test(str);
+	}
+</script>
+</html>

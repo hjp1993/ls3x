@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{LR_NAME}-标签自动生成</title>
+	{css}
+	{js}
+	<style>
+	.wrapper-content{padding:8px;}
+	.main{padding-left:5px;padding-right:5px;}
+	.tag_left,.tag_right{padding:0px;}
+	.ibox-title,.ibox-content{border:1px solid #4FB4DE;padding:0px;}
+	.ibox-title p,.ibox-content p{background:#418BCA;color:#fff;height:25px;line-height:25px;}
+	.ibox-content ul{list-style-type:none;}
+	.tagv li{margin-left:-18%;margin-bottom:4px;}
+	.tag_color{color:#A7B1C2;}
+	.tag_left .right{display:none;}
+	.tag_right .right{display:;}
+	.type_var_content li{margin-bottom:4px;font-size:16px;}
+	.type_var_content .tag_color{display:inline-block;width:160px;}
+	#tag{height:34px;font-size:14px;width:100%}
+	.tag_option{float:left;margin-right:20px;}
+	.tag_option .form-control{height:28px;font-size:12px;width:110px;display:inline-block;margin-bottom:5px;}
+	.nav-tabs li a{padding:5px 5px 5px 5px;}
+	.type_fun .rightp{margin-bottom:0px;}
+	.type_fun textarea{height:80%;border:none;}
+	.type_fun{font-size:12px;}
+	</style>
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+	<div class="col-sm-12 main">
+		<div class="col-sm-3 tag_left" style="height:600px;">
+			<div class="col-sm-12 ibox-title" style="height:18%;">
+				<p>选择标签</p>
+				<div class="col-sm-12">
+					<select id="tag" name="tag" class="form-control" value="">
+						<option value="">——请选择——</option>	
+						<option value="1">系统级全局变量</option>
+						<option value="2">栏目相关局部变量</option>
+						<option value="3">内容相关局部变量</option>
+						<option value="4">菜单循环(menu_loop)</option>
+						<option value="5">子栏目循环(child_loop)</option>
+						<option value="6">文章列表循环(art_loop)</option>
+						<option value="7">搜索结果循环(search_loop)</option>
+						<option value="14">友情链接循环(link_loop)</option>
+						<option value="8">内容数据源标签(d:)</option>
+						<option value="9">获取指定栏目信息(getcinfo)</option>
+						<option value="10">日期时间格式化(date)</option>
+						<option value="11">字符串截取(cut)</option>
+						<option value="12">当前文章上一篇(getPrevInfo)</option>
+						<option value="13">当前文章下一篇(getNextInfo)</option>
+					</select>
+				</div> 
+				
+			</div>
+			<div class="col-sm-12 ibox-content" style="height:82%;">
+				<p>常用变量说明</p>
+				<ul class="nav nav-tabs">
+				   <li class="tagvv" data="1"><a href="javascript:void(0)">系统全局</a></li>
+				   <li class="tagvv" data="2"><a href="javascript:void(0)">栏目相关</a></li>
+				   <li class="tagvv" data="3"><a href="javascript:void(0)">内容相关</a></li>
+				</ul>
+				<ul class="tagv tagv1">
+				   
+				</ul>
+				<ul class="tagv tagv2">
+				   
+				</ul>
+				<ul class="tagv tagv3">
+				   
+				</ul>
+			</div>
+		</div>
+		<div class="col-sm-9 tag_right tag_index" style="height:600px;">
+		    <div class="col-sm-12 ibox-content" style="height:100%;">
+			    <p>标签首页</p>
+		        <div style="text-align:center;margin-top:35%;font-size:22px;font-style:italic;">欢迎使用{LR_NAME}-标签自动生成！</div>
+			</div>
+		</div>
+		<div class="col-sm-9 tag_right type_var" style="height:600px;">
+		    <div class="col-sm-12 ibox-content" style="height:100%;">
+				<p>标签格式说明</p>
+				<ul class="type_var_content">
+				   
+				</ul>
+			</div>
+		</div>
+		<div class="col-sm-9 tag_right type_fun" style="height:600px;">
+			<div class="col-sm-12 ibox-title type_fun1" style="height:25%;">
+			    <div style="height:80%">
+					<p>标签选项</p>
+					<div class="tag_option c5 c6">
+						选择栏目
+						<select id="tag_cid" name="tag_cid" class="form-control" value="">
+							
+						</select>
+					</div>
+					<div class="tag_option c4 c5 c6 c7 c14">
+						显示数目
+						<input id="tag_num" name="tag_num" class="form-control" value="" placeholder="默认为10"/>
+					</div>
+					<div class="tag_option c6 c7">
+						循环方式
+						<select id="tag_loop_type" name="tag_loop_type" class="form-control" value="">
+							<option value="">默认(按栏目属性)</option>	
+							<option value="1">按修改时间降序</option>
+							<option value="2">按修改时间升序</option>
+							<option value="3">按发表时间降序</option>
+							<option value="4">按发表时间升序</option>
+							<option value="5">按文章ID降序</option>
+							<option value="6">按文章ID升序</option>
+							<option value="7">按阅读数降序</option>
+							<option value="8">按阅读数升序</option>
+						</select>
+					</div>
+					<div class="tag_option c6 c7">
+						是否置顶
+						<select id="tag_istop" name="tag_istop" class="form-control" value="">
+							<option value="1">是</option>	
+							<option value="">否</option>
+						</select>
+					</div>
+					<div class="tag_option c6">
+						起始位置
+						<input id="tag_origin" name="tag_origin" class="form-control" value="" placeholder="默认为1"/>
+					</div>
+					<div class="tag_option c6 c7">
+						是否分页
+						<select id="tag_isfenye" name="tag_isfenye" class="form-control" value="">
+							<option value="">否</option>	
+							<option value="1">是</option>
+						</select>
+					</div>
+					<div class="tag_option c7">
+						搜索的内容
+						<input id="tag_keyword" name="tag_keyword" class="form-control" value="<%keyword%>" readonly="readonly"/>
+					</div>
+				</div>
+				<div style="height:20%">
+					<div class="pull-right" style="margin-bottom:10px;margin-right:10px;">
+						<a class="btn btn-xs btn-info" onclick="build()">>>生成标签</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-12 ibox-content type_fun2" style="height:20%;">
+				<p class="rightp">标签格式说明</p>
+				<textarea name="intro" id="intro" class="form-control" readonly="readonly"></textarea>
+			</div>
+			<div class="col-sm-12 ibox-content type_fun3" style="height:30%;">
+				<p class="rightp">标签实例</p>
+				<textarea name="example" id="example" class="form-control" readonly="readonly"></textarea>
+			</div>
+			<div class="col-sm-12 ibox-content type_fun4" style="height:25%;">
+				<p class="rightp">生成标签</p>
+				<textarea name="cur_val" id="cur_val" class="form-control"></textarea>
+			</div>
+		</div>
+	</div>
+	
+</div>
+</body>
+<script src="./js/tag.js"></script>
+</html>

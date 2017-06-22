@@ -1,0 +1,267 @@
+<!DOCTYPE HTML>
+<html>
+<head> 
+<title>数据库工具</title>
+<link href="/widget/Hplus/css/plugins/iCheck/custom.css" rel="stylesheet">
+{css}  
+{js}
+<script src="/ppf/js/frtdo.js"></script>
+<style>
+	.zl-lh{line-height: 30px;}
+</style>
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+	<div class="col-sm-12">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h3>数据库工具 </h3>
+				<p>请选择相关操作，数据库导出，如果数据量大，网速不快的时候，浏览器会造成假死状态，请要耐心等待，<span style="color:red;">勿关闭或刷新页面</span>！！<br/>
+				数据库恢复需要时间，请耐心等待直到出现提示信息，提示信息出来之前，<span style="color:red;">请勿关闭或刷新页面，否则会失败，</span><br/>
+				若恢复失败，无法打开网站，可找到该文件进行<span style="font-weight:bold;">手动恢复</span>。
+				<span style="color:orange;font-weight:bold;">可在备份管理中将备份文件下载到本地</span>。<br/>
+				<span style="color:red;font-weight:bold;">警告：还原数据库将清空现有数据，请务必先备份当前数据库！！</span></p>
+			   <hr/>
+				<div class="row">
+					<label class="col-sm-1 control-label text-center m-b-xs zl-lh">常用操作</label>
+					<div class="col-sm-11 m-b-xs">
+							<a href="./?t=database_tool" class="btn btn-primary btn-outline btn-sm" >刷新</a>
+							<a href="javascript:void(0)" class="btn btn-primary btn-sm J_menuItem" onclick="dbback(this,1)">备份当前数据库</a>
+							<a href="javascript:void(0)" class="btn btn-primary btn-sm J_menuItem" onclick="dbrecover_man()">备份管理与还原</a>
+					</div>
+				</div>
+				<div class="row">
+					<label class="col-sm-1 control-label text-center m-b-xs zl-lh">批量操作</label>
+					<div class="col-sm-11 m-b-xs">
+						<a onclick="dbback(this,2)" class="btn btn-danger btn-outline btn-sm" target=_blank>备份选中的表</a>
+						<a onclick="optimize(this,1)" class="btn btn-danger btn-outline btn-sm" target=_blank>优化选中的表</a>
+					</div>
+				</div>
+			</div>
+			<div class="ibox-content">
+				<table class="table  table-hover table-striped"> 
+				<thead>
+				<tr>
+				<th><input type="checkbox" class="i-checks" id="checkAll"></th>
+				<th>ID</th>
+				<th>表的名称</th>
+				<th>记录数（条）</th>
+				<th>占用空间（KB）</th>
+				<th>操作</th>
+				</tr>
+				</thead>
+				<tbody>
+				<!-- START table_info -->
+				<tr class="tr_list"> 
+				<td><input type="checkbox" class="i-checks i-checks-cl" name="tname[]" value="{TABLE_NAME}"></td>
+				<td>{ROWNO}</td>
+				<td>{TABLE_NAME}</td>
+				<td>{TABLE_ROWS}</td>
+				<td>{TABLE_LENGTH}</td>
+				<td>
+				<a class="" onclick="dbback(this,3)" tname="{TABLE_NAME}">[备份]</a>&nbsp;
+				<a class="" onclick="optimize(this,2)" tname="{TABLE_NAME}">[优化]</a>&nbsp;
+				</td>
+				</tr>
+				<!-- END table_info -->
+				</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
+<!-- iCheck -->
+<script src="/widget/Hplus/js/plugins/iCheck/icheck.min.js"></script>
+<script type="text/javascript"> 
+jsnState=null;
+$('.i-checks').iCheck({
+	checkboxClass: 'icheckbox_square-green',
+	radioClass: 'iradio_square-green',
+});
+
+$('#checkAll').on('ifClicked',function(e){
+	if($(this).prop("checked")){
+		$('.i-checks').iCheck('uncheck'); 
+	}
+	else{
+		$('.i-checks').iCheck('check');
+	}
+});
+$('.i-checks-cl').on('ifChanged',function(e){
+	$('#checkAll').iCheck('uncheck'); 
+	//console.log($("input[name='id[]']:checked"));
+});
+
+
+function dbback(e,type){
+    var tname=[];   
+    if(type==2){
+	    var tname_obj=$("input[name='tname[]']:checked");
+		if(tname_obj.length==0){
+		    alert("未选择表！");return false;
+		}
+		tname_obj.each(function(){
+		    tname.push($(this).val());
+		})		
+	}
+	if(type==3){
+	    tname.push($(e).attr("tname"));
+	}
+	var dbback_name='';
+	var index=layer.open({
+	    type: 1,
+		title: "确认备份文件名",
+		closeBtn: 1,
+		btn:['确认','取消'],
+		shadeClose: true,
+		area: ['360px', '180px'],
+		content: $("#dbback_layer"),
+		yes:function(){
+			if(isChineseChar($("#dbback_name").val())){
+				alert("不支持中文名！");return false;
+			}
+			dbback_name=$("#dbback_name").val();
+			layer.close(index);
+			layer.msg('备份中，请勿关闭或刷新浏览器',{
+			    icon: 16,
+			    shade: 0.3,
+				time: 50000
+			});
+			var send_data={"tpl":"backup_db","type":type,"tname":tname,"dbback_name":dbback_name};
+			$.post("./srv/sys_fun.php", send_data, function (d) {
+				if(d=='error:1'){refresh("参数错误！");}
+				if(d=='error:2'){refresh("该文件已存在！");}
+				if(d.indexOf('ok')>-1){
+				    var back_name=d.substr(3);
+					refresh("备份成功，备份文件为"+back_name);
+				}
+			});
+		}
+	})
+}
+
+function dbrecover_man(){
+    $(".dbrecover_list").empty();
+    $.post("./srv/sys_fun.php", {"tpl":"dbrecover_list"}, function (d) {
+		d=eval('('+d+')');
+		if(d==null){$(".dbrecover_list").html('没有备份文件');return false;}
+		var file_list_html='';
+		$.each(d,function(i,v){
+		    file_list_html+='<tr><td>'+v+'</td><td style="text-align:right;"><a href="{dbback_down_path}'+v+'" class="glyphicon glyphicon-download-alt" title="下载"></a>&nbsp;&nbsp;<a class="glyphicon glyphicon-refresh" title="恢复" onclick="dbrecover('+"'"+v+"'"+')"></a>&nbsp;&nbsp;<a class="glyphicon glyphicon-remove" title="删除" onclick="dbback_del(this,'+"'"+v+"'"+')"></a></td></tr>';
+		})
+		$(".dbrecover_list").append($(file_list_html));
+	});
+	//return false;
+    var index=layer.open({
+	    type: 1,
+		title: "备份文件管理",
+		closeBtn: 1,
+		shadeClose: true,
+		area: ['360px', '450px'],
+		content: $("#dbrecover_layer").html()
+	})
+}
+
+function dbrecover(file){
+    if(!window.confirm("还原前请先备份文件，否则原有数据会消失，是否继续？"))return;
+    layer.confirm('再次确认是否已备份当前数据库？', {
+	    btn: ['已备份','取消'] //按钮
+	},function(){
+	    if(!isChineseChar(file)){
+			layer.msg('还原中，请勿关闭或刷新浏览器',{
+				icon: 16,
+				shade: 0.3,
+				time: 50000
+			});
+			$.post("./srv/sys_fun.php", {"tpl":"recover_db","dbback_name":file}, function (d) {
+				if(d=='error:1'||d=='error:2'){refresh("参数错误！");}
+				if(d=='error:3'){refresh("该文件已经不存在！");}
+				if(d=='error:4'){refresh("还原出错，如网站出现异常请手动还原！");}
+				if(d=='ok'){refresh("还原成功！");}
+			});
+		}
+	});
+    
+}
+
+function dbback_del(e,file){
+    layer.confirm('删除后无法还原，是否确认？', {
+	    btn: ['确认','取消'] //按钮
+	}, function(){
+	    if(!isChineseChar(file)){
+			$.post("./srv/sys_fun.php", {"tpl":"del_dbback","dbback_name":file}, function (d) {
+				if(d=='error:1'||d=='error:2'){alert("参数错误！");}
+				if(d=='error:3'){alert("该文件已经不存在！");}
+				if(d=='ok'){alert("删除成功！");$(e).parent().parent().remove();}
+			});
+		}
+	});
+}
+
+function optimize(e,type){
+    var tname=[];  
+    if(type==1){
+	    var tname_obj=$("input[name='tname[]']:checked");
+		if(tname_obj.length==0){
+		    alert("未选择表！");return false;
+		}
+		tname_obj.each(function(){
+		    tname.push($(this).val());
+		})
+	}
+	if(type==2){
+	    tname.push($(e).attr("tname"));
+	}
+	if(tname.length==0)return false;
+    layer.confirm('优化可能需要较长时间等待，是否确认？', {
+	    btn: ['确认','取消'] //按钮
+	}, function(){
+	    layer.msg('优化中，请勿关闭或刷新浏览器',{
+			icon: 16,
+			shade: 0.3,
+			time: 50000
+		});
+		$.post("./srv/sys_fun.php", {"tpl":"optimize","tname":tname}, function (d) {
+			if(d=='error:1'||d=='error:2'){alert("参数错误！");}
+			if(d=='error:3'){alert("优化时出错，如网站出现异常请手动还原！");}
+			if(d=='ok'){alert("优化成功！");}
+		});
+
+	});
+}
+
+//是否含有中文（也包含日文和韩文）
+function isChineseChar(str){   
+   var reg = /[\u4E00-\u9FA5\uF900-\uFA2D]/;
+   return reg.test(str);
+}
+function refresh(str){
+    layer.msg(str,{time:1000},function(){
+		location.href=location.href;
+	});
+}
+</script>
+
+<div id="dbback_layer" style="display:none">
+	<div style="margin-top:10px;">
+		<div class="input-group">
+			<input type="text" id="dbback_name" class="form-control" value="" placeholder="无需扩展名，可为空，系统将自动设置" />
+			<span class="input-group-addon">.sql</span>
+		</div>
+		<p class="text-center" style="margin-top:10px"><span class="label label-warning">系统默认设置格式如：db_20170329105258.sql</span></p>
+	<div>
+</div>
+<div id="dbrecover_layer" style="display:none">
+	<div style="margin-top:10px;">
+		<table class="table table-hover dbrecover_list">
+		    
+        </table>		
+		<span class="label label-danger">
+		数据库恢复需要时间，请耐心等待直到出现提示信息 <br/>
+		提示信息出来之前，请勿关闭或刷新页面，否则会失败 <br/>
+		若恢复失败，无法打开网站，可找到该文件进行手动恢复
+		</span>
+	<div>
+</div>

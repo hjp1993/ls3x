@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title><%web_name%>--新闻列表页</title> 
+<%meta%>
+</head>
+<body>
+<div class="wrap">
+	<%head%>
+	<div class="clear"></div>
+	<div class="w100 main_bgn">
+		<div class="main12">
+			<div class="fl w100 nl_content bgf">
+				<div class="nl_left">
+					<div class="nl_t"><img src="/html/images/nl_tit.jpg" width="270" height="72px" /></div>
+					<ul class="news_list">
+						<f:loop(child_loop,<f:getcinfo(<%cid%>,id,1)>,,)>
+							<li class=""><i><img src="/html/images/nl_icon.png" /></i><a href="<:@url>" target=""><:name></a>
+								<f:loop(child_loop,<:id>,,)>
+									<li class=""><i><img src="/html/images/nl_icon.png" /></i><a href="<:@url>" target=""><:name></a></li>
+								</f:loop>
+							</li>
+						</f:loop>
+					</ul>
+				</div>
+				<div class="nl_right">
+					<p class="navigation">您当前所在位置：<a href="/" target="">首页</a>><a href="<f:getcinfo(<%cid%>,@url,1)>" target=""><f:getcinfo(<%cid%>,name,1)></a>><a href="<f:getcinfo(<%cid%>,@url)>" target=""><f:getcinfo(<%cid%>,name)></a></p>
+					<div class="nlr_tit"><p>[<f:getcinfo(<%cid%>,name)>]</p></div>
+					<ul class="newsn_list">
+						<f:loop(art_loop,<%cid%>,10,,1,1,1)>
+							<li>
+								<i><img src="/html/images/nts_icon.jpg" /></i>
+								<a href="<:@url>" target="">
+								<p><:name></p><:pre>
+								</a>
+								<span><f:date(Y-m-d,<:CreateTime>)></span>
+							</li>
+						</f:loop>
+					</ul>
+					<div class="clear"></div>
+					<div class="pager_box">
+						<div class="page" id="page">
+							<div class="PagerView">
+								<%page%>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="clear"></div>
+	<%foot%>
+</div>
+</body>
+
+<script type="text/javascript">
+$(function(){
+	function cksearch(){
+		$('.flicker-example').flicker();
+		if (document.getElementById("").value=='')
+		{
+			alert('');
+			return false;
+		}
+		};
+		$(document).ready(function(){
+			$('.flicker-example').flicker();
+	});
+});
+$(".menu li").hover(function(){
+	$(this).find(".menu_second").fadeIn();
+	if($(this).find(".menu_second").length==0){
+	$(this).find(".menua").css("color","#c567fb");
+	}else{
+	$(this).find(".menua").css("color","#fff");
+	}
+	$(this).siblings().find(".menu_second").hide();     
+	//$(this).siblings().find(".dropdown_menu").hide();
+},function(){
+	$(this).find(".menu_second").hide();
+	$(this).find(".menua").css("color","#7b45c0");
+});
+
+$(".newsn_list li").hover(function(){
+	$(this).find('img').attr("src","/html/images/nts_picon.jpg"); 
+},function(){
+	$(this).find('img').attr("src","/html/images/nts_icon.jpg"); 
+});
+</script>
+</html>

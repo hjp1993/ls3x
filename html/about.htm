@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title><%web_name%>--学校简介</title> 
+<%meta%>
+</head>
+<body>
+<div class="wrap">
+	<%head%>
+	<div class="clear"></div>
+	<div class="w100 main_bgn">
+		<div class="main12">
+			<div class="fl w100 nl_content bgf">
+				<div class="nl_left">
+					<div class="nl_t"><img src="/html/images/ab_tit.jpg" width="270" height="72" /></div>
+					<ul class="news_list">
+						<f:loop(child_loop,<f:getcinfo(<%cid%>,id,1)>,,)>
+							<li class=""><i><img src="/html/images/nl_icon.png" /></i><a href="<:@url>" target=""><:name></a></li>
+						</f:loop>
+					</ul>
+				</div>
+				<div class="nl_right">
+					<p class="navigation">您当前所在位置：<a href="/" target="">首页</a>><a href="" target=""><f:getcinfo(<%cid%>,name,1)></a>><a href="" target=""><f:getcinfo(<%cid%>,name)></a></p>
+					<div class="nlr_tit"><p>[<f:getcinfo(<%cid%>,name)>]</p></div>
+					<d:artinfo(19,about)>
+					<div class="artical">
+						<div class="info">
+						<img src="/html/images/ban1.jpg" width="100%" />
+							<div style="font-size:16px;"><:about[des]></div>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="clear"></div>
+	<%foot%>
+</div>
+</body>
+
+<script type="text/javascript">
+$(function(){
+	function cksearch(){
+		$('.flicker-example').flicker();
+		if (document.getElementById("").value=='')
+		{
+			alert('');
+			return false;
+		}
+		};
+		$(document).ready(function(){
+			$('.flicker-example').flicker();
+	});
+});
+$(".menu li").hover(function(){
+	$(this).find(".menu_second").fadeIn();
+	if($(this).find(".menu_second").length==0){
+	$(this).find(".menua").css("color","#c567fb");
+	}else{
+	$(this).find(".menua").css("color","#fff");
+	}
+	$(this).siblings().find(".menu_second").hide();     
+	//$(this).siblings().find(".dropdown_menu").hide();
+},function(){
+	$(this).find(".menu_second").hide();
+	$(this).find(".menua").css("color","#7b45c0");
+});
+
+$(".newsn_list li").hover(function(){
+	$(this).find('img').attr("src","/html/images/nts_picon.jpg"); 
+},function(){
+	$(this).find('img').attr("src","/html/images/nts_icon.jpg"); 
+});
+</script>
+</html>

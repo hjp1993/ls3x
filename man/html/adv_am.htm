@@ -1,0 +1,217 @@
+<!DOCTYPE HTML>
+<html>
+<head> 
+<title>飘窗[添加/编辑]</title>
+<link href="/widget/Hplus/css/plugins/iCheck/custom.css" rel="stylesheet">
+{css}  
+{js}
+{ppf}
+<style>
+.toge input{display:inline-block;width:25%;}
+.toge .togex{font-size:18px;font-weight:bold;color:black;}
+</style>
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+	<div class="col-sm-12">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5 class="panel-title">飘窗<small>   [添加/编辑]</small>      </h5>
+				<div class="ibox-tools">
+					<a class="close-link" onclick="window.history.back(-1);">
+						<i class="fa fa-arrow-circle-left">返回</i>
+					</a>
+				</div>
+			</div>
+			<div class="ibox-content">
+				<form id="form1" class="form-horizontal">
+				    <div class="form-group">
+					    <label class="col-sm-12">名称</label>  
+						<div class="col-sm-4"> <input id="name" name="name" type="text" class="form-control" maxlength="50"  placeholder="请输入名称" value=""> </div> 
+					</div> 
+					<div class="form-group">
+					   <label class="col-sm-12">英文名(标签调用名，必需)</label>  
+					   <div class="col-sm-4"><input id="tag_name" name="tag_name" type="text" class="form-control" maxlength="50"  placeholder="请输入英文名" value=""></div>
+					</div>
+					<div class="form-group">
+					 <label class="col-sm-12">说明</label>  
+					   <div class="col-sm-4"><input id="intro" name="intro" type="text" class="form-control" maxlength="100"  value=""></div>
+					</div>
+					<div class="form-group">
+					<label class="col-sm-12">内容图片</label> 
+						<div class="col-sm-1">
+                            <img class="img-responsive" id="pic_img" src="" style="width:100%;" onerror="this.src='/error/pic.jpg'">
+                        </div>
+						<div class="col-sm-1">
+							<button type="button" class="btn btn-default btn-sm btn-block" onclick="$('#dlg1').modal('show');"><i class="fa fa-envelope"></i> 上传图片</a></button>
+						</div>
+					</div>
+					
+					<div class="form-group">
+					   <label class="col-sm-12">内容文字(不设置图片时显示)</label>  
+					   <div class="col-sm-4"><input id="content" name="content" type="text" class="form-control" maxlength="200"  placeholder="请输入内容文字" value=""></div>
+					</div>
+					
+					<div class="form-group">
+					   <label class="col-sm-12">跳转地址(例如:http://www.baidu.com)</label>  
+					   <div class="col-sm-4"><input id="url" name="url" type="text" class="form-control" maxlength="200"  placeholder="请输入链接地址" value=""></div>
+					</div>
+					<div class="form-group">
+					   <label class="col-sm-12">是否打开新页面</label>  
+					   <div class="col-sm-4">
+					        <label class="checkbox-inline">
+                            <input type="radio" name="target" id="target" value="1" checked>是
+                            </label>
+                            <label class="checkbox-inline">
+                            <input type="radio" name="target" id="target" value="0">否
+                            </label>
+					   </div>
+					</div>
+					
+					<div class="form-group">
+					   <label class="col-sm-12">起始位置(距离页面左边界*距离页面上边界，如100*200，默认0*0)</label>  
+					   <div class="col-sm-4 toge">
+					       <input id="left" name="left" type="text" class="form-control" placeholder="距离左方" value="">
+						   &nbsp;<span class="togex">*</span>&nbsp 
+						   <input id="top" name="top" type="text" class="form-control" placeholder="距离上方" value="">
+					   </div>
+					</div>
+					
+					<div class="form-group">
+					   <label class="col-sm-12">大小设置(飘窗的宽度*高度，如200*100，默认200*100)</label>  
+					   <div class="col-sm-4 toge">
+					       <input id="width" name="width" type="text" class="form-control" placeholder="宽度" value="">
+                           &nbsp;<span class="togex">*</span>&nbsp;						   
+						   <input id="height" name="height" type="text" class="form-control" placeholder="高度" value="">
+					   </div>
+					</div>
+					
+					<div class="form-group">
+					   <label class="col-sm-12">移动速度(建议0-30之间，默认5，速度为0时位置固定)</label>  
+					   <div class="col-sm-4"><input id="speed" name="speed" type="text" class="form-control" maxlength="200"  placeholder="请输入速度" value=""></div>
+					</div>
+					
+					<div class="form-group">
+						<div class="col-sm-12"><button type="button" class="btn btn-success" id="btn"> 提交 </button> </div>
+						<input id="id" name="id" type="text" class="form-control" value="" style="display: none;">
+						<input id="pic" name="pic" type="text" class="form-control" value="" style="display: none;">
+					
+					</div>
+				</form>  
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+
+<script>
+	$(function(){
+		var dotype=queryStr("do");
+		var id=queryStr("id");
+		$("#id2").val(id);
+		
+		if(dotype=="m"){               
+	        readID({"do":"r",id:id,frmid:"#form1",tpl:"advertisement",callback:"showlogo"}); 
+	    }
+			
+		$("#btn").click(function(){
+		    if($("#name").val()==''){alert("名称不可为空！");return;}
+			if($("#tag_name").val()==''){alert("英文名称不可为空！");return;}
+			if($("#left").val()=='')$("#left").val("0");
+			if($("#top").val()=='')$("#top").val("0");
+			if($("#width").val()=='')$("#width").val("200");
+			if($("#height").val()=='')$("#height").val("100");
+			if($("#speed").val()=='')$("#speed").val("5");
+			//if($("#url").val().indexOf("http")=='-1')$("#url").val("http://"+$("#url").val());
+			//if($("#url").val().indexOf("javascript:")!='-1')$("#url").val("javascript:void(0)");
+			var flag=false;
+			$.ajax({
+			    type: "POST",
+				async: false,//设为同步
+			    url: "./srv/sdo.php",
+			    data: {"tpl":"check_adv_tag_name","tag_name":$("#tag_name").val(),"id":$("#id").val(),"do":dotype},
+			    success: function(d){
+				   if(d!='ok'){
+				       alert("此英文名已经存在！");
+				   }else{
+				       flag=true;
+				   } 
+			    }
+			});
+			if(!flag)return false;
+			var data={
+				"tpl":"deal_adv",
+				"do":dotype,
+				"id":$("#id").val(),
+				"name":$("#name").val(),
+				"tag_name":$("#tag_name").val(),
+				"intro":$("#intro").val(),
+				"pic":$("#pic").val(),
+				"content":$("#content").val(),
+				"url":$("#url").val(),
+				"target":$('[name="target"]:checked').val(),
+				"left":$("#left").val(),
+				"top":$("#top").val(),
+				"width":$("#width").val(),
+				"height":$("#height").val(),
+				"speed":$("#speed").val()
+			};
+			$.post("./srv/sdo.php",data,function(d){
+			    if(d=='ok'){
+				    update_shtm();
+	                location.href="/man/?t=adv";
+				}else{
+				    alert("操作失败！");    
+				}
+			})
+		});
+	})
+	function showlogo(e,data){
+    	$("#pic_img").prop("src","/upd/adv_pic/"+$("#pic").val());
+    }
+	
+	function ifrm_dosome(){    
+		v=$("#ifrm").contents().find("body").html();
+		if(v!=""){     
+		   d=JSON.parse(v);
+		   if(d.ret=="ok"){      
+		   	$("#pic").val(d.fname);
+		   	$("#pic_img").prop("src","/upd/adv_pic/"+d.fname);
+			 //location.reload();
+		   }
+		   else{
+			 alert(d.des);
+		   }        
+		}      
+	}   	
+
+</script>
+</html>
+<div class="modal" id="dlg1" tabindex="-1" role="dialog"    aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title" id="label">上传图片（根据个人需求上传合适的尺寸）</h4>
+         </div>
+         <div class="modal-body">
+<form class="form-horizontal" role="form" action="./srv/upd_pic_adv.php" enctype="multipart/form-data" method="post" id="from2" name="from2" target="ifrm">
+  <div class="form-group"> 
+    <label class="col-sm-2 control-label">图片</label>
+    <div class="col-sm-10">
+    <input id="file" name="file" type="file" class="webuploader-element-invisible" multiple="multiple" accept="image/*" />  
+    <input type="text" id="id2" name="id2" value="" style="display:none;"/>
+    <span class="help-block">(.jpg,.png,.gif图片)</span>
+    </div>
+  </div> 
+</form>
+         </div>
+         <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="btn" onclick="$('#from2').submit(); ">提交更改</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>             
+         </div>
+      </div>
+   </div>
+</div>
+
+<iframe src="" name="ifrm" id="ifrm" style="display:none" onload="ifrm_dosome()"></iframe>

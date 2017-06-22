@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title><%web_name%>--新闻内容页</title> 
+<%meta%>
+</head>
+<body>
+<div class="wrap">
+	<%head%>
+	<div class="clear"></div>
+	<div class="w100 main_bgn">
+		<div class="main12">
+			<div class="fl w100 nl_content bgf">
+				<div class="nl_left">
+					<div class="nl_t"><img src="/html/images/nl_tit.jpg" width="270" height="72px" /></div>
+					<ul class="news_list">
+						<f:loop(child_loop,<f:getcinfo(<%cid%>,id,1)>,,)>
+							<li class=""><i><img src="/html/images/nl_icon.png" /></i><a href="<:@url>" target=""><:name></a></li>
+						</f:loop>
+					</ul>
+				</div>
+				<div class="nl_right">
+					<p class="navigation">您当前所在位置：<a href="/" target="">首页</a>><a href="" target=""><f:getcinfo(<%cid%>,name,1)></a>><a href="" target=""><f:getcinfo(<%cid%>,name)></a></p>
+					<div class="nlr_tit"><p>[<f:getcinfo(<%cid%>,name)>]</p></div>
+					<d:artinfo(<%aid%>,art)>
+					<div class="artical">
+						<div class="title">
+							<h2><:art[name]></h2>
+							<p>作者：<:art[uid]>　审核：admin　来源：<:art[froms]>　发布时间：<f:date(Y-m-d,<:art[CreateTime]>)>　阅读次数：<:art[see]></p>
+						</div>
+						<div class="info">
+							<div style="font-size:16px;"><:art[des]></div>
+						</div>
+						<div class="clear"></div>
+						<div class="prenext">
+							<div class="pre">
+								[上一篇]：<a href="<f:getPrevInfo(@url)>"><f:getPrevInfo(name)></a></div>
+							<div class="next">[下一篇]：<a href="<f:getNextInfo(@url)>"><f:getNextInfo(name)></a></div>
+						</div>
+						<div class="print">
+							<a href="" target="">【打印】</a><a href="">【关闭】</a><a href="#">【返回顶部】</a>
+						</div>
+					</div>
+					<div class="clear"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="clear"></div>
+	<%foot%>
+</div>
+</body>
+
+<script type="text/javascript">
+$(function(){
+	function cksearch(){
+		$('.flicker-example').flicker();
+		if (document.getElementById("").value=='')
+		{
+			alert('');
+			return false;
+		}
+		};
+		$(document).ready(function(){
+			$('.flicker-example').flicker();
+	});
+});
+$(".menu li").hover(function(){
+	$(this).find(".menu_second").fadeIn();
+	if($(this).find(".menu_second").length==0){
+	$(this).find(".menua").css("color","#c567fb");
+	}else{
+	$(this).find(".menua").css("color","#fff");
+	}
+	$(this).siblings().find(".menu_second").hide();     
+	//$(this).siblings().find(".dropdown_menu").hide();
+},function(){
+	$(this).find(".menu_second").hide();
+	$(this).find(".menua").css("color","#7b45c0");
+});
+
+$(".newsn_list li").hover(function(){
+	$(this).find('img').attr("src","/html/images/nts_picon.jpg"); 
+},function(){
+	$(this).find('img').attr("src","/html/images/nts_icon.jpg"); 
+});
+</script>
+</html>

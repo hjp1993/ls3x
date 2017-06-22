@@ -1,0 +1,28 @@
+<div class="footer">
+	<div class="main12">
+		<div class="foot_des fl">
+			<ul class="fot_menu">
+				<li><a href="#" target="">设为首页</a>|</li>
+				<li><a href="#" target="">加入收藏</a>|</li>
+				<li><a href="#" target="">联系站长</a>|</li>
+				<li><a href="#" target="">版权申明</a>|</li>
+				<li><a href="#" target="">管理登录</a>|</li>
+			</ul>
+			<div class="fot_bot fl">
+				<div class="link fl">
+					<select onchange="if(this.options[this.selectedIndex].value != ''){window.open(this.options[this.selectedIndex].value,'_blank');}">	
+						<option selected="">---友情链接---</option>
+						<f:loop(link_loop,5)>
+							<option value="<:@url>"><:name></option>
+						</f:loop>
+					</select>
+				</div>
+				<div class="fl ft_info">
+					<p>版权所有 Copyright © 2007-2008    地址：南京市溧水区庆丰路     邮编：211200     联系电话:<%web_tel%></p>
+					<p><%counter%></p>    <p><%icp%> </p>
+				</div>
+			</div>
+		</div>
+		<div class="chart fr"><img src="/html/images/chart.jpg" align="top" width="85" height="85" /></div>
+	</div>
+</div>

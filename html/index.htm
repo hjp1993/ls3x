@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title><%web_name%>--首页</title>
+<%meta%>
+</head>
+<body>
+<div class="wrap">
+	<%head%>
+	<div class="clear"></div>
+	<div class="w100 main_bg">
+		<div class="main12 bgf pr">
+			<div class="left">
+				<ul class="tab-bd">
+					<li class="thisclass mb15 fl">
+						<div class="n_left">
+							<div class="n_tit"><a class="more" href="./?t=arts&c=18" target=""><img src="/html/images/more.jpg" /></a></div>
+							<ul class="n_list">
+								<f:loop(art_loop,18,1,,1,1,)>
+									<li>
+										<img src="/html/images/line.jpg" width="290" height="2" align="top" />
+										<img src="<:thumb>" class="n_img" align="top" onerror="this.src='/error/pic.jpg';"/>
+										<p class="news_tit"><a href="<:@url>" target=""><:name></a></p>
+										<span><f:date(Y-m-d,<:CreateTime>)></span>
+									</li>
+								</f:loop>
+								<f:loop(art_loop,18,1,,1,2,)>
+									<li>
+										<img src="/html/images/line.jpg" width="290" height="2" align="top" />
+										<p class="news_tit"><a href="/?t=art" target=""><:name></a></p>
+										<span><f:date(Y-m-d,<:CreateTime>)></span>
+										<p class="des"><a href="<:@url>" target=""><:pre></a></p>
+									</li>
+								</f:loop>
+							</ul>
+							<ul class="n_list">
+								<f:loop(art_loop,18,1,,1,3,)>
+									<li>
+										<img src="/html/images/line.jpg" width="290" height="2" align="top" />
+										<p class="news_tit"><a href="/?t=art" target=""><:name></a></p>
+										<span><f:date(Y-m-d,<:CreateTime>)></span>
+										<p class="des"><a href="<:@url>" target=""><:pre></a></p>
+									</li>
+								</f:loop>
+								<f:loop(art_loop,18,1,,1,4,)>
+									<li>
+										<img src="/html/images/line.jpg" width="290" height="2" align="top" />
+										<img src="<:thumb>" class="n_img" align="top" onerror="this.src='/error/pic.jpg';"/>
+										<p class="news_tit"><a href="<:@url>" target=""><:name></a></p>
+										<span><f:date(Y-m-d,<:CreateTime>)></span>
+									</li>
+								</f:loop>
+							</ul>
+						</div>
+						<div class="n_right">
+							<div class="nts_tit"><a class="more" href="" target=""><img src="/html/images/more.jpg" /></a></div>
+							<img src="/html/images/line.jpg" width="293" height="2" align="bottom" style="margin-top:10px;" />
+							<ul class="nts_list">
+								<f:loop(art_loop,19,4,,1,,)>
+									<li><span class="date"><b class="date_day"><f:date(d,<:CreateTime>)></b><i><f:date(Y-m,<:CreateTime>)></i></span><a href="<:@url>" target=""><:name></a></li>
+								</f:loop>
+							</ul>
+						</div>
+					</li>
+					<li class="mb15 fl">
+						<div class="t_left fl"><img src="/html/images/t_img.jpg" width="272" height="355" /></div>
+						<div class="t_right fr pr">
+							<i style="position:absolute;left:10px;top:75px;"><img src="/html/images/quotes_l.jpg" width="62" height="60" /></i>
+							<p>教育的神圣在于尊重每一个生命的平等教师是山，学生是水，碧水青山方成如画风景学生是宝贝，教师是财富，家长是朋友</p>
+							<p style="font-size:12px;line-height:30px;">Respect for the equality of life is what makes education a sacred cause. 
+							Teachers are like mountains, and students are like water, which both of them
+							combine to be a picturesque landscape. Students are treasures; 
+							teachers are assets; parents are friends.</p>
+							<i style="position:absolute;right:10px;top:75px;"><img src="/html/images/quotes_r.jpg" width="64" height="60" /></i>
+						</div>
+					</li>
+					<li class="mb15 fl">
+						<div class="w100">
+							<div class="tea_tit"><a class="more" href="" target=""><img src="/html/images/more.jpg" /></a></div>
+							<ul class="c_comm_pic">
+								<f:loop(art_loop,4,4,,1,,)>
+									<li class="comm_recom">
+										<a href="<:@url>" target=""><img src="<:thumb>" onerror="this.src='/error/pic.jpg';"/></a>
+										<div class="txt">
+											<h5><f:cut(<:name>,0,13,...)></h5>
+											<div class="video_show">
+												<p><f:cut(<:pre>,0,48,...)></p>
+											</div>
+										</div>
+									</li>
+								</f:loop>
+							</ul>
+						</div>
+					</li>
+					<li>
+						<ul class="x_conlist">
+							<li>
+								<a href="./?t=arts&c=81" class="bg_cion bg_cbg2 pr">
+									<img src="/html/images/x_img.jpg" width="306" height="157" />
+									<div class="dask"><span class="pa su_nameover blu_c">心灵小屋</span></div>
+								</a>
+								<dl class="x_list">
+									<f:loop(art_loop,81,5,,1,,)>
+										<dd><i><img src="/html/images/x_icon.jpg" /></i><a href="<:@url>" target=""><:name></a></dd>
+									</f:loop>
+									<dt><a href="./?t=arts&c=81" target="">查看更多...</a></dt>
+								</dl>
+							</li>
+							<li>
+								<a href="./?t=arts&c=82" class="bg_cion bg_cbg2 pr">
+									<img src="/html/images/x_img.jpg" width="306" height="157" />
+									<div class="dask"><span class="pa su_nameover pur_c">教师心理</span></div>
+								</a>
+								<dl class="x_list">
+									<f:loop(art_loop,82,5,,1,,)>
+										<dd><i><img src="/html/images/x_icon.jpg" /></i><a href="<:@url>" target=""><:name></a></dd>
+									</f:loop>
+									<dt><a href="./?t=arts&c=82" target="">查看更多...</a></dt>
+								</dl>
+							</li>
+							<li>
+								<a href="./?t=arts&c=84" class="bg_cion bg_cbg2 pr">
+									<img src="/html/images/x_img.jpg" width="306" height="157" />
+									<div class="dask"><span class="pa su_nameover gre_c">轻松驿站</span></div>
+								</a>
+								<dl class="x_list">
+									<f:loop(art_loop,84,5,,1,,)>
+										<dd><i><img src="/html/images/x_icon.jpg" /></i><a href="<:@url>" target=""><:name></a></dd>
+									</f:loop>
+									<dt><a href="./?t=arts&c=84" target="">查看更多...</a></dt>
+								</dl>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<div class="bk_left">
+							<f:loop(art_loop,14,1,,1,,)>
+								<a href="<:@url>" target=""><img src="<:thumb>" width="442" height="285" onerror="this.src='/error/pic.jpg';"/></a>
+								<div class="w100"> 
+									<p class="news_tit"><a href="<:@url>" target=""><:name></a></p>
+									<span><f:cut(<:pre>,0,30,...)></span>
+								</div>
+							</f:loop>
+						</div>
+						<div class="fr bk_right">
+							<dl class="bk_list">
+								<f:loop(art_loop,14,3,,1,2,)>
+									<dd>
+										<a href="<:@url>" class="img"><img src="<:thumb>" width="144" height="98" onerror="this.src='/error/pic.jpg';"/></a>
+										<div class="des">
+											<a href="<:@url>" target=""><f:cut(<:name>,0,20,...)></a>
+											<span><f:cut(<:pre>,0,55,...)></span>
+										</div>
+									</dd>
+								</f:loop>
+							</dl>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="right">
+				<div class="nr_img"><img src="/html/images/nr_bg.png" width="180" height="113" /></div>
+				<ul class="tit_left fr tab-hd">                                      
+					<li><a href="./?t=arts&c=2" target="">新闻中心</a><b>News</b></li>
+					<li><a href="#" target="">校长寄语</a><b>General principal</b></li>
+					<li><a href="./?t=arts&c=4" target="">教师风采</a><b>Teacher style</b></li>
+					<li><a href="./?t=arts&c=8" target="">年级动态</a><b>Grade trends</b></li>
+					<li><a href="./?t=arts&c=14" target="">课程建设</a><b>Course construction</b></li>
+				</ul>
+			</div>
+			<div class="clear"></div>
+			<div class="w100 fl bgf">
+				<div id="mygallery" class="stepcarousel">
+					<div class="belt" id="displaycssbelt">
+						<div class="panel">
+							<div class="subfeature">
+								<a href="#"><img src="/html/images/img01.jpg" class="post-image" width="154" height="144" /></a>
+							</div>
+						</div>	
+						<div class="panel">
+							<div class="subfeature">
+								<a href="#"><img src="/html/images/img02.jpg" class="post-image" width="154" height="144" /></a>
+							</div>
+						</div>	
+						<div class="panel">
+							<div class="subfeature">
+								<a href="#"><img src="/html/images/img03.jpg" class="post-image" width="154" height="144" /></a>
+							</div>
+						</div>
+						<div class="panel">
+							<div class="subfeature">
+								<a href="#"><img src="/html/images/img04.jpg" class="post-image" width="154" height="144" /></a>
+							</div>
+						</div>	
+						<div class="panel">
+							<div class="subfeature">
+								<a href="#"><img src="/html/images/img05.jpg" class="post-image" width="154" height="144" /></a>
+							</div>
+						</div>		
+						<div class="panel">
+							<div class="subfeature">
+								<a href="#"><img src="/html/images/img06.jpg" class="post-image" width="154" height="144" /></a>
+							</div>
+						</div>				
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="clear"></div>
+	<%foot%>
+</div>
+</body>
+
+<script type="text/javascript">
+$(function(){
+	function cksearch(){
+		$('.flicker-example').flicker();
+		if (document.getElementById("").value=='')
+		{
+			alert('');
+			return false;
+		}
+		};
+		$(document).ready(function(){
+			$('.flicker-example').flicker();
+	});
+});
+$(".menu li").hover(function(){
+	$(this).find(".menu_second").fadeIn();
+	if($(this).find(".menu_second").length==0){
+	$(this).find(".menua").css("color","#c567fb");
+	}else{
+	$(this).find(".menua").css("color","#fff");
+	}
+	$(this).siblings().find(".menu_second").hide();     
+	//$(this).siblings().find(".dropdown_menu").hide();
+},function(){
+	$(this).find(".menu_second").hide();
+	$(this).find(".menua").css("color","#7b45c0");
+});
+function tabs(tabTit,on,tabCon){
+$(tabCon).each(function(){
+  $(this).children().eq(0).show();
+  });
+$(tabTit).each(function(){
+  $(this).children().eq(0).addClass(on);
+  });
+ $(tabTit).children().hover(function(){
+	$(this).addClass(on).siblings().removeClass(on);
+	 var index = $(tabTit).children().index(this);
+	 $(tabCon).children().eq(index).show().siblings().hide();
+});
+ }
+tabs(".tab-hd","active",".tab-bd");
+</script>
+</html>

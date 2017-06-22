@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html>
+<head> 
+<title>首页与栏目页模板[添加/编辑]</title>
+<link href="/widget/Hplus/css/plugins/iCheck/custom.css" rel="stylesheet">
+{css}  
+{js}
+{ppf}
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+	<div class="col-sm-12">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5 class="panel-title">首页与栏目页模板<small>   [添加/编辑]</small>      </h5>
+				<div class="ibox-tools">
+					<a class="close-link" onclick="window.history.back(-1);">
+						<i class="fa fa-arrow-circle-left">返回</i>
+					</a>
+				</div>
+			</div>
+			<div class="ibox-content">
+				<form id="form1" class="form-horizontal">
+				     <div class="form-group">
+					    <label class="col-sm-12">模板名称</label>  
+						<div class="col-sm-4"> <input id="name" name="name" type="text" class="form-control" maxlength="50"  placeholder="请输入名称" value=""> </div> 
+					 </div> 
+					 <div class="form-group">
+					    <label class="col-sm-12">模板文件名 <span class="label label-danger">[确认文件名填写正确，否则无法打开该页面]</span></label>  
+					    <div class="col-sm-4"><input id="filename" name="filename" type="text" class="form-control" maxlength="50"  placeholder="请输入文件名" value=""></div>
+					 </div>
+					 <div class="form-group">
+					    <label class="col-sm-12">模板文件扩展名 <span class="label label-danger">[如htm、html、shtml等，确认后缀填写正确，否则无法打开该页面]</span></label>  
+					    <div class="col-sm-4"><input id="fileext" name="fileext" type="text" class="form-control" maxlength="10"  placeholder="请输入文件扩展名" value=""></div>
+					 </div>
+					<div class="form-group"> 
+						<label class="col-sm-12">描述 </label>   
+						<div class="col-sm-4"> <textarea class="form-control" id="desc" name="desc"></textarea> </div> 
+					</div>			
+					<div class="form-group">
+						<div class="col-sm-12"><button type="button" class="btn btn-success" id="btn"> 提交 </button> </div>
+						<input id="id" name="id" type="text" class="form-control" value="" style="display: none;">
+						<input id="type" name="type" type="text" class="form-control" value="1" style="display: none;">
+					</div>
+				</form>  
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+
+<script>
+	$(function(){
+		var dotype=queryStr("do");
+		var id=queryStr("id");
+		if(dotype=="m"){               
+	        readID({"do":"r",id:id,frmid:"#form1",tpl:"template"}); 
+	    }
+			
+		$("#btn").click(function(){
+		    if($("#name").val()==''){alert("模板名称不可为空");return false;}
+			if($("#filename").val()==''){alert("模板文件名不可为空");return false;}
+			if($("#fileext").val()==''){alert("模板文件扩展名不可为空");return false;}
+			if(isChineseChar($("#filename").val())){alert("模板文件名不支持中文");return false;}
+			$("#fileext").val($("#fileext").val().replace('.',''));
+			SaveAM({"do":dotype,"id":id,frmid:"#form1",tpl:"template",showok:"提交成功",callback:"dosome"});
+		});
+	})
+	
+	function dosome(e,data){
+	   if(data.indexOf('ok')>-1){ 
+	      //update_shtm();
+	      location.href="/man/?t=template_c";
+	   }
+	   else
+	      alert("操作失败！");
+	}     	
+    
+	//是否含有中文（也包含日文和韩文）
+	function isChineseChar(str){   
+	   var reg = /[\u4E00-\u9FA5\uF900-\uFA2D]/;
+	   return reg.test(str);
+	}
+</script>
+</html>

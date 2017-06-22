@@ -1,0 +1,173 @@
+<!DOCTYPE HTML>
+<html>
+<head> 
+<title>文章内容管理-{gtitle}</title>
+<link href="/widget/Hplus/css/plugins/iCheck/custom.css" rel="stylesheet">
+<link href="/widget/Hplus/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+{css}  
+{js}
+<script type="text/javascript" src="/ppf/js/jquery.base64.js"></script>
+<script type="text/javascript" src="/man/js/time.js"></script>
+<style>
+	.look_img{display:none;}
+	#tblist i{margin-right:5px;}
+	.layui-layer-btn{text-align:center;}
+</style>
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+	<div class="col-sm-12" >
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<div class="row">
+					<label class="col-sm-12 control-label text-left m-b-xs zl-lh">常用操作：</label>
+					<div class="col-sm-12 m-b-xs">
+							<a onclick="location.reload();" class="btn btn-primary btn-outline btn-sm" >刷新</a>
+							<a class="btn btn-primary btn-outline btn-sm" onclick="top.win=window.open('/man/?t=label_generator','标签自动生成器','width=880,height=620')">标签</a>
+					</div>
+				</div>
+			</div>
+			<div class="ibox-content" >
+				<table class="table table-hover table-striped" > 
+				<thead>
+				<tr>
+				<th width="50">类型</th>
+				<th width="50">格式</th>
+				<th>名称</th>
+				<th class="text-center" width="100">操作</th>
+				</tr>
+				</thead>
+				<tbody id="tblist">
+				</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+</div>
+</body>
+<script type="text/javascript">
+var jsonData='{fileList}',dir=$.base64.decode('{dir}');
+var json = JSON.parse(jsonData);
+var url = "/man/?t=catalog";
+for(var i=0; i<json.name.length; i++)  
+{  
+	if(json.type[i]=="dir"){
+		$("#tblist").append("<tr filetype='dir' filename='"+json.name[i]+"'><td>"+json.type[i]+"</td><td></td><td class='text-muted'><i class='fa fa-folder-o'></i>"+json.name[i]+"</td><td class='text-right'></td></tr>");
+	}
+}  
+for(var i=0; i<json.name.length; i++)  
+{  
+	if(json.type[i]=="file"){
+		var filename=getFileExt(json.name[i]);
+		if(filename==".inc"||filename==".txt"){
+		$("#tblist").append("<tr><td>"+json.type[i]+"</td><td>"+getFileExt(json.name[i])+"</td><td><i class='fa fa-file-text-o'></i>"+json.name[i]+"</td><td class='text-center'><a class='btn btn-info btn-sm btn-outline' filetype='openfile' filename='"+json.name[i]+"'>编辑</a></td></tr>");
+		}
+	}
+}  
+for(var i=0; i<json.name.length; i++)  
+{  
+	if(json.type[i]=="file"){
+		var filename=getFileExt(json.name[i]);
+		if(filename==".js"||filename==".css"){
+		$("#tblist").append("<tr><td>"+json.type[i]+"</td><td>"+getFileExt(json.name[i])+"</td><td><i class='fa fa-file-text-o'></i>"+json.name[i]+"</td><td class='text-center'><a class='btn btn-info btn-sm btn-outline' filetype='openfile' filename='"+json.name[i]+"'>编辑</a></td></tr>");
+		}
+	}
+}  
+for(var i=0; i<json.name.length; i++)  
+{  
+	if(json.type[i]=="file"){
+		var filename=getFileExt(json.name[i]);
+		if(json.type[i]=="file"){
+			var filename=getFileExt(json.name[i]);
+			if(filename==".htm"||filename==".html"){
+			$("#tblist").append("<tr><td>"+json.type[i]+"</td><td>"+getFileExt(json.name[i])+"</td><td><i class='fa fa-file-code-o'></i>"+json.name[i]+"</td><td class='text-center'><a class='btn btn-info btn-sm btn-outline' filetype='openfile' filename='"+json.name[i]+"'>编辑</a></td></tr>");
+			}
+		}
+	}
+}  
+for(var i=0; i<json.name.length; i++)  
+{  
+	if(json.type[i]=="file"){
+		var filename=getFileExt(json.name[i]);
+		if(json.type[i]=="file"){
+			var filename=getFileExt(json.name[i]);
+			if(filename==".gif"||filename==".png"||filename==".jpg"){
+			$("#tblist").append("<tr><td>"+json.type[i]+"</td><td>"+getFileExt(json.name[i])+"</td><td><i class='fa fa-image'></i>"+json.name[i]+"</td><td class='text-center'><a class='btn btn-warning btn-sm btn-outline' filetype='lookimg' style='display:none;' filename='"+json.name[i]+"'>查看</a></td></tr>");
+			}
+		}
+	}
+} 
+if(dir!="./../html/"){
+	$("#tblist").prepend("<tr filetype='lastdir'><td>dir</td><td></td><td><i class='fa fa-folder-o'></i>上一级</td><td class='text-center'></td></tr>");
+	$("#tblist").prepend("<tr filetype='topdir'><td>dir</td><td></td><td><i class='fa fa-folder-o'></i>顶级目录</td><td class='text-center'></td></tr>");
+}
+$("[filetype='dir']").each(function(){
+	$(this).css("cursor","pointer");
+	$(this).bind("click",function(){
+		var newdir=$.base64.encode(escape(dir+$(this).attr("filename")+"/"));
+		//console.log(newdir);
+		window.location.href=url+"&dir="+newdir;
+	});
+});
+$("[filetype='lastdir']").each(function(){
+	$(this).css("cursor","pointer");
+	$(this).bind("click",function(){
+		var dir_arr=dir.split("/");
+		dir_arr.pop();
+		dir_arr.pop();
+		var _dir=dir_arr.join("/");
+		var newdir=$.base64.encode(_dir+"/");
+		window.location.href=url+"&dir="+newdir;
+	});
+});
+$("[filetype='topdir']").each(function(){
+	$(this).css("cursor","pointer");
+	$(this).bind("click",function(){
+		var newdir=$.base64.encode("./../html/");
+		window.location.href=url+"&dir="+newdir;
+	});
+});
+$("[filetype='openfile']").each(function(){
+	$(this).css("cursor","pointer");
+	$(this).bind("click",function(){
+		var dirname=$(this).attr("filename");
+		var newdir=$.base64.encode(dir+dirname);
+		var index=layer.open({
+		  type: 2,
+		  title: '编辑文件 > '+dirname,
+		  shadeClose: true,
+		  scrollbar: false,
+		  shade: 0.8,
+		  maxmin: true,
+		  btnAlign:'c',
+		  btn: ['保存','关闭','打开标签'],
+		  btn3:function(){
+			top.win=window.open('/man/?t=label_generator','标签自动生成器','width=880,height=620');
+		  },
+		  yes: function(index, layero){$("#layui-layer-iframe"+index)[0].contentWindow.savefile(index);},
+		  area: ['800px', '90%'],
+		  content: '/man/php/openfile.php?dir='+newdir
+		}); 
+
+	});
+});
+$("[filetype='lookimg']").each(function(){
+	$(this).css("cursor","pointer");
+	$(this).bind("click",function(){
+		var dirname=$(this).attr("filename");
+		var newdir=dir+dirname;
+		var index=layer.open({
+		  type: 1,
+		  title: '查看图像 > '+dirname,
+		  shadeClose: true,
+		  scrollbar: false,
+		  shade: 0.8,
+		  maxmin: true,
+		  content: '<img src="'+newdir+'" alt=""/>'
+		}); 
+	});
+});
+
+</script>
+</html>
